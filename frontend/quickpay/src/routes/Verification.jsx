@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Verification = () => {
-  const queryParams = new URLSearchParams(window.location.search);
+  const queryParams = useSearchParams();
   const reference = queryParams.get("reference");
   const navigate = useNavigate();
 
