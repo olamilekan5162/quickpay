@@ -1,8 +1,11 @@
 import { useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Verification = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const reference = queryParams.get("reference");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const verifyPayment = async () => {
@@ -20,17 +23,26 @@ const Verification = () => {
 
         const data = await response.json();
         console.log(data);
-        // Handle the verification result as needed
         if (data.data.status === "success") {
-          alert("Payment verified successfully!");
+          toast.success("Payment verified successfully!", { duration: 4000 });
           setTimeout(() => {
-            window.location.href = "/";
+            navigate("/");
           }, 5000);
         } else {
-          alert("Payment verification failed. Please try again.");
+          toast.error("Payment verification failed. Please try again.", {
+            duration: 4000,
+          });
+          setTimeout(() => {
+            navigate("/");
+          }, 5000);
         }
       } catch (error) {
-        alert("Error verifying payment. Please try again.");
+        toast.error("Error verifying payment. Please try again.", {
+          duration: 4000,
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 5000);
         console.error("Error verifying payment:", error);
       }
     };
@@ -41,6 +53,11 @@ const Verification = () => {
   }, [reference]);
   return (
     <div className="flex justify-center items-center h-screen w-full bg-gray-100 px-2">
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{ style: { background: "black", color: "white" } }}
+      />
       <div className="bg-white p-8 rounded-2xl shadow-2xl flex flex-col items-center w-[400px] max-w-full">
         <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-black border-opacity-70 mb-6"></div>
 

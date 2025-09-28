@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { IoCopyOutline } from "react-icons/io5";
 
 const LinkGeneration = () => {
@@ -35,20 +36,29 @@ const LinkGeneration = () => {
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);
+        toast.success("Payment link generated successfully", {
+          duration: 4000,
+        });
         setPaymentLink(data.data.authorization_url);
         console.log(data);
       })
       .catch((err) => {
         setLoading(false);
+        toast.error("Error generating payment link", { duration: 4000 });
         console.error("Error:", err);
       });
   };
   return (
     <div className="flex justify-center items-center h-screen w-full bg-gray-100 px-2">
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{ style: { background: "black", color: "white" } }}
+      />
       <form
         action="#"
         onSubmit={handleSubmit}
-        className="flex gap-3 flex-col w-[400px] p-6 bg-white rounded-2xl shadow-2xl"
+        className="flex gap-6 flex-col w-[400px] p-6 bg-white rounded-2xl shadow-2xl"
       >
         <h2 className="text-2xl font-bold mb-4 text-center">
           Generate payment Link
@@ -88,13 +98,20 @@ const LinkGeneration = () => {
         {paymentLink && (
           <div className="my-5 border p-2 border-dashed border-gray-300 flex flex-row justify-between items-center">
             <p className="text-sm">
-              <i>Generated Link: </i> {paymentLink}
+              <i>Generated Link: </i>{" "}
+              <a
+                className="text-black decoration-0"
+                href={paymentLink}
+                target="blank"
+              >
+                {paymentLink}
+              </a>
             </p>
             <IoCopyOutline
               className="cursor-pointer"
               onClick={() => {
                 navigator.clipboard.writeText(paymentLink);
-                alert("Link copied to clipboard");
+                toast("Link copied to clipboard");
               }}
             />
           </div>

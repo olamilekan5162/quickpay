@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 const App = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex justify-center items-center h-screen w-full bg-gray-100 px-2">
       <div className="flex flex-col gap-4 w-[500px] max-w-full items-center p-8 bg-white rounded-2xl shadow-2xl">
@@ -14,7 +17,7 @@ const App = () => {
           className="bg-black text-white px-6 py-2 rounded hover:opacity-80 mt-6"
           type="button"
           onClick={() => {
-            window.location.href = "/generate";
+            navigate("/generate");
           }}
         >
           Create Payment Link
