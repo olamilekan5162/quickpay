@@ -24,7 +24,7 @@ const LinkGeneration = () => {
       body: JSON.stringify({
         email: email,
         amount: amount * 100,
-        callback_url: "http://localhost:5173/verify",
+        callback_url: "https://quickpay-alpha.vercel.app/verify",
         channels: ["bank"],
         metadata: {
           custom_filters: {
